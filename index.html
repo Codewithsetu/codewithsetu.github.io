@@ -120,7 +120,7 @@
         <div id="highScore">High Score: 0</div>
         <div id="startScreen">
             <h1>Flappy Bird Smooth</h1>
-            <p>Hit Space or Click to Play!</p>
+            <p>Tap or Click to Play!</p>
             <button id="easyButton" class="startButton">Start Game</button>
         </div>
         <canvas id="gameCanvas"></canvas>
@@ -316,9 +316,9 @@
             if (gameOver) {
                 ctx.fillStyle = '#FFD700'; // Yellow text for game over
                 ctx.font = `clamp(20px, 8vw, 40px) 'Segoe UI', Arial`;
-                ctx.fillText('Game Over', canvas.width / 2 - 80, canvas.height / 2 - 30);
+                ctx.fillText('Game Over', canvas.width / 2 - 100, canvas.height / 2 - 30);
                 ctx.font = `clamp(16px, 6vw, 28px) 'Segoe UI', Arial`;
-                ctx.fillText('Press Space to Restart', canvas.width / 2 - 100, canvas.height / 2 + 20);
+                ctx.fillText('Tap or Click to Restart', canvas.width / 2 - 130, canvas.height / 2 + 20);
             }
         }
 
@@ -363,6 +363,24 @@
                 }
             }
         });
+
+         canvas.addEventListener('click', () => { // CHANGED: Added click event listener for mobile/desktop
+            if (!gameStarted || gameOver) {
+                startGame('easy'); // Start or restart on click
+            } else {
+                bird.velocity = bird.jump; // Flap on click
+            }
+        });
+
+         canvas.addEventListener('touchstart', (e) => { // CHANGED: Added touchstart event listener for mobile
+            e.preventDefault(); // Prevent scrolling or other default touch behaviors
+            if (!gameStarted || gameOver) {
+                startGame('easy'); // Start or restart on touch
+            } else {
+                bird.velocity = bird.jump; // Flap on touch
+            }
+        });
+
         easyButton.addEventListener('click', () => startGame('easy'));
 
         // Start game loop
